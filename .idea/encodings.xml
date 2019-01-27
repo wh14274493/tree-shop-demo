@@ -2,7 +2,10 @@
 <project version="4">
   <component name="Encoding" addBOMForNewFiles="with NO BOM">
     <file url="file://$PROJECT_DIR$" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/common" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/tree_shop_api" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/tree_shop_api/tree_shop_member_api" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/tree_shop_eurekaserver" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/tree_shop_member" charset="UTF-8" />
   </component>
 </project>

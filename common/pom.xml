@@ -9,10 +9,8 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>tree_shop_api</artifactId>
-    <packaging>pom</packaging>
-    <modules>
-        <module>tree_shop_member_api</module>
-    </modules>
+    <artifactId>common</artifactId>
+
+    <packaging>jar</packaging>
 
 </project>

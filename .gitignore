@@ -1,2 +1,5 @@
 /tree_shop_api/target
 /tree_shop_eurekaserver/target
+/common/target
+/tree_shop_member/target
+/tree_shop_api/tree_shop_member_api/target
