@@ -10,6 +10,7 @@
         <module name="tree_shop_eurekaserver" />
         <module name="tree_shop_member" />
         <module name="tree_shop_member_api" />
+        <module name="tree_shop_messages" />
       </profile>
     </annotationProcessing>
   </component>
@@ -20,6 +21,7 @@
       <module name="tree_shop_eurekaserver" options="-parameters" />
       <module name="tree_shop_member" options="-parameters" />
       <module name="tree_shop_member_api" options="-parameters" />
+      <module name="tree_shop_messages" options="-parameters" />
     </option>
   </component>
 </project>

@@ -15,5 +15,5 @@ public class User extends BaseDomain implements Serializable {
     private String username;
     private String phone;
     private String email;
-
+    private String md5Param;
 }

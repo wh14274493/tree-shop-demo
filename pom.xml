@@ -8,6 +8,7 @@
         <module>tree_shop_eurekaserver</module>
         <module>common</module>
         <module>tree_shop_member</module>
+        <module>tree_shop_messages</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

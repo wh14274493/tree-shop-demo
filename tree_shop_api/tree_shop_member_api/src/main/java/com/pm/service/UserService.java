@@ -7,8 +7,14 @@ import java.util.Map;
 
 @RequestMapping("/user")
 public interface UserService {
-    @GetMapping("/info/{name}")
-    Map getMenberInfo(@PathVariable String name);
+    /**
+     * 获取今天操作消息队列的所有消息
+     * @param intefaceType 消息头标识
+     * @param type produce：发送的  consume：消费的
+     * @return
+     */
+    @GetMapping("/messages")
+    Map getTodayProduceMessages(@RequestParam String intefaceType,@RequestParam String type);
 
     @GetMapping("/setinfo/{name}/{age}")
     Map setMemberInfo(@PathVariable String name, @PathVariable String age);

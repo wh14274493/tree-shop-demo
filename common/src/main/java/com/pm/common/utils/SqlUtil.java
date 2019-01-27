@@ -31,9 +31,9 @@ public class SqlUtil {
      * @return
      */
     public String delete(Map paramMap) {
-        Object object = paramMap.get("obj");
+        Long id = (Long) paramMap.get("id");
         String table = (String) paramMap.get("table");
-        return generateInsertSql(object, table).toString();
+        return generateDeleteSql(id, table).toString();
     }
 
     /**
@@ -62,13 +62,15 @@ public class SqlUtil {
 
     /**
      * 查询所有
+     *
      * @param paramMap
      * @return
      */
-    public String findAll(Map paramMap){
+    public String findAll(Map paramMap) {
         String table = (String) paramMap.get("table");
         return generateSelectAllSql(table).toString();
     }
+
     /**
      * 生成sql语句的column字符串
      *
@@ -255,6 +257,7 @@ public class SqlUtil {
 
     /**
      * 生成查询所有的sql语句
+     *
      * @param table
      * @return
      */

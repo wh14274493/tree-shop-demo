@@ -10,7 +10,7 @@
 	<property name="LOG_MAX_HISTORY" value="30" />
 	<!--定义日志文件的存储地址 勿在 LogBack 的配置中使用相对路径 -->
 	<!--应用日志文件保存路径 -->
-	<property name="LOG_APP_HOME" value="${APP_NAME}/tree_shop_member" />
+	<property name="LOG_APP_HOME" value="${APP_NAME}/tree_shop_messages/log" />
 
 	<!--=========================== 按照每天生成日志文件：默认配置=================================== -->
 	<!-- 控制台输出 -->

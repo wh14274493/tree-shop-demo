@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: messages
+  redis:
+    database: 0
+    host: 120.79.27.240
+    port: 6379
+    password: Wh!10131034
+    jedis:
+      pool:
+        max-active: 8
+        max-wait: -1
+        max-idle: 8
+        min-idle: 0
+    timeout: 10000
+  activemq:
+    broker-url: tcp://120.79.27.240:61616
+    user: admin
+    password: admin
+  mail:
+    host: smtp.163.com # QQ邮箱smtp主机
+    username: wh14274493@163.com
+    password: wh10131034 # 这里QQ邮箱开通POP3/SMTP提供的授权码，如果邮箱服务商没有授权码，可以使用密码代替
+    protocol: smtp
+    default-encoding: UTF-8
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://120.79.27.240:8762/eureka/
+server:
+  port: 8764
