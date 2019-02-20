@@ -279,7 +279,7 @@
     <property name="RequestMappingsPanelWidth1" value="75" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1550673375159" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1550673947620" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/tree_shop_merchant" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
@@ -496,12 +496,12 @@
       <workItem from="1550042157037" duration="7152000" />
       <workItem from="1550117123526" duration="10526000" />
       <workItem from="1550381590679" duration="7015000" />
-      <workItem from="1550662555286" duration="9447000" />
+      <workItem from="1550662555286" duration="9472000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="198394000" />
+    <option name="totallyTimeSpent" value="198419000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
