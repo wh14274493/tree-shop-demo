@@ -10,18 +10,28 @@
         <module name="tree_shop_eurekaserver" />
         <module name="tree_shop_member" />
         <module name="tree_shop_member_api" />
+        <module name="tree_shop_merchant" />
+        <module name="tree_shop_merchant_api" />
         <module name="tree_shop_messages" />
+        <module name="tree_shop_mobile" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="tree_shop_order" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="common" options="-parameters" />
-      <module name="tree_shop_api" options="-parameters" />
+      <module name="tree_shop_api" options="" />
       <module name="tree_shop_eurekaserver" options="-parameters" />
       <module name="tree_shop_member" options="-parameters" />
       <module name="tree_shop_member_api" options="-parameters" />
+      <module name="tree_shop_merchant" options="-parameters" />
+      <module name="tree_shop_merchant_api" options="-parameters" />
       <module name="tree_shop_messages" options="-parameters" />
+      <module name="tree_shop_mobile" options="-parameters" />
+      <module name="tree_shop_order" options="-parameters" />
     </option>
   </component>
 </project>

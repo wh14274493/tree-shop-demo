@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
-@RequestMapping("/user")
+@RequestMapping("/service/user")
 public interface UserService {
     /**
      * 获取今天操作消息队列的所有消息
@@ -19,9 +19,27 @@ public interface UserService {
     @GetMapping("/setinfo/{name}/{age}")
     Map setMemberInfo(@PathVariable String name, @PathVariable String age);
 
+    /**
+     * 注册
+     * @param user
+     * @return
+     */
     @PostMapping("/register")
     Map register(@RequestBody User user);
 
+    /**
+     * 登录
+     * @param user
+     * @return
+     */
+    @PostMapping("/login")
+    Map login(@RequestBody User user);
+
+    /**
+     * 删除
+     * @param id
+     * @return
+     */
     @GetMapping("/real/delete")
     Map realDeleteUserById(@RequestParam Long id);
 
@@ -43,4 +61,6 @@ public interface UserService {
     @GetMapping("/findAll")
     Map findAll();
 
+    @GetMapping("/getCurrentUser")
+    Map getCurrentUser(@RequestParam String token);
 }

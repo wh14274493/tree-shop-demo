@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pm.mapper.MerchantApplyRecordMapper">
+  <resultMap id="BaseResultMap" type="com.pm.domain.MerchantApplyRecord">
+    <result column="id" jdbcType="BIGINT" property="id" />
+    <result column="apply_user_id" jdbcType="BIGINT" property="applyUserId" />
+    <result column="apply_time" jdbcType="TIMESTAMP" property="applyTime" />
+    <result column="check_time" jdbcType="TIMESTAMP" property="checkTime" />
+    <result column="merchant_name" jdbcType="VARCHAR" property="merchantName" />
+    <result column="merchant_detail" jdbcType="VARCHAR" property="merchantDetail" />
+    <result column="state" jdbcType="INTEGER" property="state" />
+  </resultMap>
+  <insert id="insert" parameterType="com.pm.domain.MerchantApplyRecord">
+    insert into merchant_apply_record (id, apply_user_id, apply_time, 
+      check_time, merchant_name, merchant_detail, 
+      state)
+    values (#{id,jdbcType=BIGINT}, #{applyUserId,jdbcType=BIGINT}, #{applyTime,jdbcType=TIMESTAMP}, 
+      #{checkTime,jdbcType=TIMESTAMP}, #{merchantName,jdbcType=VARCHAR}, #{merchantDetail,jdbcType=VARCHAR}, 
+      #{state,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.pm.domain.MerchantApplyRecord">
+    insert into merchant_apply_record
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="applyUserId != null">
+        apply_user_id,
+      </if>
+      <if test="applyTime != null">
+        apply_time,
+      </if>
+      <if test="checkTime != null">
+        check_time,
+      </if>
+      <if test="merchantName != null">
+        merchant_name,
+      </if>
+      <if test="merchantDetail != null">
+        merchant_detail,
+      </if>
+      <if test="state != null">
+        state,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="applyUserId != null">
+        #{applyUserId,jdbcType=BIGINT},
+      </if>
+      <if test="applyTime != null">
+        #{applyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checkTime != null">
+        #{checkTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="merchantName != null">
+        #{merchantName,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantDetail != null">
+        #{merchantDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <resultMap id="BaseResultMap" type="com.pm.domain.MerchantApplyRecord">
+    <result column="id" jdbcType="BIGINT" property="id" />
+    <result column="apply_user_id" jdbcType="BIGINT" property="applyUserId" />
+    <result column="apply_time" jdbcType="TIMESTAMP" property="applyTime" />
+    <result column="check_time" jdbcType="TIMESTAMP" property="checkTime" />
+    <result column="merchant_name" jdbcType="VARCHAR" property="merchantName" />
+    <result column="merchant_detail" jdbcType="VARCHAR" property="merchantDetail" />
+    <result column="state" jdbcType="INTEGER" property="state" />
+  </resultMap>
+  <insert id="insert" parameterType="com.pm.domain.MerchantApplyRecord">
+    insert into merchant_apply_record (id, apply_user_id, apply_time, 
+      check_time, merchant_name, merchant_detail, 
+      state)
+    values (#{id,jdbcType=BIGINT}, #{applyUserId,jdbcType=BIGINT}, #{applyTime,jdbcType=TIMESTAMP}, 
+      #{checkTime,jdbcType=TIMESTAMP}, #{merchantName,jdbcType=VARCHAR}, #{merchantDetail,jdbcType=VARCHAR}, 
+      #{state,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.pm.domain.MerchantApplyRecord">
+    insert into merchant_apply_record
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="applyUserId != null">
+        apply_user_id,
+      </if>
+      <if test="applyTime != null">
+        apply_time,
+      </if>
+      <if test="checkTime != null">
+        check_time,
+      </if>
+      <if test="merchantName != null">
+        merchant_name,
+      </if>
+      <if test="merchantDetail != null">
+        merchant_detail,
+      </if>
+      <if test="state != null">
+        state,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="applyUserId != null">
+        #{applyUserId,jdbcType=BIGINT},
+      </if>
+      <if test="applyTime != null">
+        #{applyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checkTime != null">
+        #{checkTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="merchantName != null">
+        #{merchantName,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantDetail != null">
+        #{merchantDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+</mapper>

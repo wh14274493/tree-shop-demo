@@ -1,0 +1,57 @@
+server:
+  port: 8766
+spring:
+  application:
+    name: merchant
+  redis:
+    database: 0
+    host: 120.79.27.240
+    port: 6379
+    password: Wh!10131034
+    jedis:
+      pool:
+        max-active: 8
+        max-wait: -1
+        max-idle: 8
+        min-idle: 0
+    timeout: 10000
+  datasource:
+    url: jdbc:mysql://120.79.27.240:3306/tree_shop_merchant
+    username: root
+    password: Wh!10131034
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    filters: stat
+    maxActive: 20
+    initialSize: 1
+    maxWait: 60000
+    minIdle: 1
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: select 'x'
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxOpenPreparedStatements: 20
+  activemq:
+    broker-url: tcp://120.79.27.240:61616
+    password: admin
+    user: admin
+email_queue: mail_queue
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://120.79.27.240:8762/eureka/
+
+mybatis:
+  mapper-locations: classpath:mybatis/*.xml
+  type-aliases-package: com.pm.domain
+
+wechat:
+  #appId: wxaea3d92f8378f076
+  appId: wxc72c07f77fa2e190
+  secret: ee2f79b84b7d63ca7a3f7aea97fda47f
+  grant_type: authorization_code
+  url: https://api.weixin.qq.com/sns/jscode2session

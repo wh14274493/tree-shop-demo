@@ -44,3 +44,14 @@ eureka:
   client:
     service-url:
       defaultZone: http://120.79.27.240:8762/eureka/
+
+mybatis:
+  mapper-locations: classpath:mybatis/*.xml
+  type-aliases-package: com.pm.domain
+
+wechat:
+  #appId: wxaea3d92f8378f076
+  appId: wxc72c07f77fa2e190
+  secret: ee2f79b84b7d63ca7a3f7aea97fda47f
+  grant_type: authorization_code
+  url: https://api.weixin.qq.com/sns/jscode2session

@@ -30,7 +30,8 @@ public class RedisUtil {
     }
 
     public String getString(String key) {
-        return (String) redisTemplate.opsForValue().get(key);
+        Object value = redisTemplate.opsForValue().get(key);
+        return value==null?null:(String)value ;
     }
 
     /**

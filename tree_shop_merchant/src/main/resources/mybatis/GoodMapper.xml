@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pm.mapper.GoodMapper">
+  <resultMap id="BaseResultMap" type="com.pm.domain.Good">
+    <result column="id" jdbcType="BIGINT" property="id" />
+    <result column="merchant_id" jdbcType="BIGINT" property="merchantId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="detail" jdbcType="VARCHAR" property="detail" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+  </resultMap>
+  <insert id="insert" parameterType="com.pm.domain.Good">
+    insert into good (id, merchant_id, name, 
+      detail, status)
+    values (#{id,jdbcType=BIGINT}, #{merchantId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, 
+      #{detail,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.pm.domain.Good">
+    insert into good
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="merchantId != null">
+        merchant_id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="detail != null">
+        detail,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="merchantId != null">
+        #{merchantId,jdbcType=BIGINT},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="detail != null">
+        #{detail,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <resultMap id="BaseResultMap" type="com.pm.domain.Good">
+    <result column="id" jdbcType="BIGINT" property="id" />
+    <result column="merchant_id" jdbcType="BIGINT" property="merchantId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="detail" jdbcType="VARCHAR" property="detail" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+  </resultMap>
+  <insert id="insert" parameterType="com.pm.domain.Good">
+    insert into good (id, merchant_id, name, 
+      detail, status)
+    values (#{id,jdbcType=BIGINT}, #{merchantId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, 
+      #{detail,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.pm.domain.Good">
+    insert into good
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="merchantId != null">
+        merchant_id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="detail != null">
+        detail,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="merchantId != null">
+        #{merchantId,jdbcType=BIGINT},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="detail != null">
+        #{detail,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+</mapper>

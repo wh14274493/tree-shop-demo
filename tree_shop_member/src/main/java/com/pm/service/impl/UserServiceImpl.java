@@ -1,15 +1,9 @@
 package com.pm.service.impl;
 
-import com.alibaba.fastjson.JSONObject;
 import com.pm.common.constants.Constant;
-import com.pm.common.constants.IntefaceType;
-import com.pm.common.constants.TableName;
-import com.pm.common.utils.ApiUtil;
-import com.pm.common.utils.DateUtil;
-import com.pm.common.utils.Md5Util;
-import com.pm.common.utils.RedisUtil;
-import com.pm.dao.UserDao;
+import com.pm.common.utils.*;
 import com.pm.domain.User;
+import com.pm.mapper.UserMapper;
 import com.pm.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
@@ -34,7 +28,7 @@ public class UserServiceImpl implements UserService {
 
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
-    private UserDao userDao;
+    private UserMapper userMapper;
 
     @Autowired
     private Queue mailQueue;
@@ -42,8 +36,11 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private JmsMessagingTemplate jmsMessagingTemplate;
 
+    @Autowired
+    private MqUtil mqUtil;
+
     @Override
-    public Map<String, Object> getTodayProduceMessages(String intefaceType,String type) {
+    public Map<String, Object> getTodayProduceMessages(String intefaceType, String type) {
         StringBuffer today = new StringBuffer(DateUtil.currentFormatDate(DateUtil.DATE_TO_STRING_SHORT_PATTERN));
         String hashKey = today.append(intefaceType).append(type).toString();
         List data = redisUtil.range(hashKey);
@@ -68,70 +65,94 @@ public class UserServiceImpl implements UserService {
         String password = user.getPassword();
         String md5Param = UUID.randomUUID().toString();
         user.setMd5Param(md5Param);
-        user.setPassword(Md5Util.MD5(md5Param+password));
+        user.setPassword(Md5Util.MD5(md5Param + password));
         user.setCreateTime(DateUtil.getTimestamp());
         user.setUpdateTime(DateUtil.getTimestamp());
-        userDao.insert(user, TableName.USER_TABLE_NAME);
-        String message = getEmailMessage(user.getEmail(),user.getUsername());
-        log.info("开始往消息队列发送消息...");
-        jmsMessagingTemplate.convertAndSend(mailQueue,message);
-        log.info("成功发送消息息： "+message);
-        //TODO keyi存储到redis中保存发送记录
-        String hashKey = DateUtil.currentFormatDate(DateUtil.DATE_TO_STRING_SHORT_PATTERN)+ IntefaceType.SMS_EMAIL+"produce";
-        log.info("hashKey: "+hashKey);
-        redisUtil.rightPush(hashKey,message);
-        return apiUtil.setSuccessResult();
+        userMapper.insert(user);
+        //  向用户发送邮件通知
+        mqUtil.sendEmailToQueue(user.getEmail(), user.getUserName(), mailQueue);
+        return apiUtil.setSuccessResult("注册成功！",user.getId());
+    }
+
+    /**
+     * 登录
+     *
+     * @param user
+     * @return
+     */
+    @Override
+    public Map login(User user) {
+        User userGetByAccount = userMapper.getByAccount(user.getAccount());
+        if (userGetByAccount == null) {
+            return apiUtil.setErrorResult("登陆失败，用户不存在！");
+        }
+        String password = Md5Util.MD5(userGetByAccount.getMd5Param() + user.getPassword());
+        if (!userGetByAccount.getPassword().equals(password)) {
+            return apiUtil.setErrorResult("登陆失败，账号或密码错误！");
+        }
+        // 成功登录以后生成token存储到redis中，解决session共享的问题
+        // key:token  value:userId 这里不存user对象，避免redis中数据不同步的问题，每次都去数据库查询
+        String token = TokenUtil.getToken();
+        String userId = String.valueOf(userGetByAccount.getId());
+        redisUtil.setString(token, userId, Constant.TOKEN_VALIDATE_TIME);
+        // 将token返回给客户端
+        return apiUtil.setSuccessResult("登录成功！", token);
     }
 
     @Override
     public Map realDeleteUserById(Long id) {
-        userDao.delete(id, TableName.USER_TABLE_NAME);
+        userMapper.delete(id);
         return apiUtil.setSuccessResult("删除成功！");
     }
 
     @Override
     public Map virtualDeleteUserById(Long id) {
-        User user = userDao.findById(id, TableName.USER_TABLE_NAME);
+        User user = userMapper.getById(id);
         user.setIsDelete(1);
         user.setUpdateTime(DateUtil.getTimestamp());
-        userDao.update(user, TableName.USER_TABLE_NAME);
+        userMapper.update(user);
         return apiUtil.setSuccessResult("删除成功！");
     }
 
     @Override
     public Map update(User user) {
+        User userGetById = userMapper.getById(user.getId());
         user.setUpdateTime(DateUtil.getTimestamp());
-        userDao.update(user, TableName.USER_TABLE_NAME);
+        if (user.getPassword() != null) {
+            StringBuffer password = new StringBuffer(userGetById.getMd5Param()).append(user.getPassword());
+            user.setPassword(Md5Util.MD5(password.toString()));
+        }
+        User u = ClassUtil.combine(user, userGetById);
+        userMapper.update(u);
         return apiUtil.setSuccessResult("修改成功！");
     }
 
     @Override
     public Map findById(Long id) {
-        User user = userDao.findById(id, TableName.USER_TABLE_NAME);
+        User user = userMapper.getById(id);
         return apiUtil.setSuccessResult("操作成功！", user);
     }
 
     @Override
     public Map findAll() {
-        List<User> userList = userDao.findAll(TableName.USER_TABLE_NAME);
+        List<User> userList = userMapper.getAll();
         return apiUtil.setSuccessResult("操作成功！", userList);
     }
 
     /**
-     * 获取发送邮件内容
-     * @param email
-     * @param userName
+     * 获取当前用户
+     *
+     * @param token
      * @return
      */
-    public String getEmailMessage(String email,String userName){
-        JSONObject root = new JSONObject();
-        JSONObject header = new JSONObject();
-        JSONObject content = new JSONObject();
-        header.put("intefaceType", IntefaceType.SMS_EMAIL);
-        content.put("email",email);
-        content.put("userName",userName);
-        root.put("header",header);
-        root.put("content",content);
-        return  root.toJSONString();
+    @Override
+    public Map getCurrentUser(String token) {
+        String userId = redisUtil.getString(token);
+        if (StringUtils.isEmpty(userId)) {
+            return apiUtil.setSuccessResult();
+        }
+        User user = userMapper.getById(Long.parseLong(userId));
+        return apiUtil.setSuccessResult(user);
     }
+
 }

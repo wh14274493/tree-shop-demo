@@ -1,4 +1,4 @@
-package com.pm.common.log;
+package com.pm.common.aspect;
 
 import com.pm.common.utils.DateUtil;
 import lombok.extern.slf4j.Slf4j;

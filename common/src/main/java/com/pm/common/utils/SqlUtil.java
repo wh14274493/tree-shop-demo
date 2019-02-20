@@ -2,7 +2,7 @@ package com.pm.common.utils;
 
 import com.pm.common.constants.TableName;
 import com.pm.common.domain.TempDomain;
-import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.jdbc.SQL;
 
 import java.lang.reflect.Field;
@@ -80,7 +80,8 @@ public class SqlUtil {
     private String generateSqlColumn(Field[] fields) {
         StringBuffer sb = new StringBuffer();
         for (int i = 0; i < fields.length; i++) {
-            sb.append(fields[i].getName());
+            String fieldName = getSqlColumnName(fields[i].getName());
+            sb.append(fieldName);
             if (i < fields.length - 1) {
                 sb.append(",");
             }
@@ -124,7 +125,7 @@ public class SqlUtil {
      * @return
      */
     private SQL generateInsertSql(Object object, String table) {
-        Field[] allFields = getAllFields(object);
+        Field[] allFields = ClassUtil.getAllFields(object);
         String columns = generateSqlColumn(allFields);
         String values = generateSqlValue(allFields, object);
         SQL sql = new SQL();
@@ -154,7 +155,8 @@ public class SqlUtil {
      * @return
      */
     private String generateWhereCondition(Field field, Object object) {
-        StringBuffer sb = new StringBuffer(field.getName() + "=");
+        String fieldName = getSqlColumnName(field.getName());
+        StringBuffer sb = new StringBuffer(fieldName + "=");
         field.setAccessible(true);
         Object value = null;
         try {
@@ -216,27 +218,12 @@ public class SqlUtil {
     private SQL generateUpdateSql(Object object, String table) {
         SQL sql = new SQL();
         sql.UPDATE(table);
-        Field[] allFields = getAllFields(object);
+        Field[] allFields = ClassUtil.getAllFields(object);
         Map<String, String> map = generateSetValue(allFields, object);
         sql.SET(map.get("setValue"));
         String condition = generateWhereCondition(Long.parseLong(map.get("id")));
         sql.WHERE(condition);
         return sql;
-    }
-
-    /**
-     * 根据对象获取所有的Field数组（包含继承的Field）
-     *
-     * @param object
-     * @return
-     */
-    public Field[] getAllFields(Object object) {
-        Class<?> cls = object.getClass();
-        Field[] fields = cls.getDeclaredFields();
-        Field[] superFields = cls.getSuperclass().getDeclaredFields();
-        //数组合并
-        Field[] allFields = (Field[]) ArrayUtils.addAll(fields, superFields);
-        return allFields;
     }
 
     /**
@@ -268,4 +255,48 @@ public class SqlUtil {
         return sql;
     }
 
+    /**
+     * 根据model属性名称生成数据库字段名，例如userName->user_Name
+     * @param fieldName
+     * @return
+     */
+    private String getSqlColumnName(String fieldName) {
+        char[] fieldNameChar = fieldName.toCharArray();
+        StringBuffer index = new StringBuffer();
+        //循环遍历得到字符串中所有大写字母的位置，并且以逗号分隔拼接成新的字符串
+        for (int i = 0; i < fieldNameChar.length; i++) {
+            if (fieldNameChar[i] >= 'A' && fieldNameChar[i] <= 'Z') {
+                index.append(i).append(",");
+            }
+        }
+        if (StringUtils.isEmpty(index.toString())) {
+            return fieldName;
+        }
+        String indexStr = index.substring(0,index.length()-1);
+        String[] indexChar = indexStr.split(",");
+        String[] fieldNameArr = new String[indexChar.length + 1];
+        int begin = 0;
+        //将model属性字符串按照大写字母所在位置分割成数组
+        for (int i = 0; i < indexChar.length; i++) {
+            int end = Integer.parseInt(indexChar[i]);
+            fieldNameArr[i] = fieldName.substring(begin, end);
+            begin = end;
+        }
+        fieldNameArr[fieldNameArr.length-1] = fieldName.substring(begin, fieldName.length());
+        System.out.println(fieldNameArr);
+        String columnName = StringUtils.join(fieldNameArr, "_");
+        return columnName;
+    }
+
+    public static void main(String[] args) {
+        TempDomain tempDomain = new TempDomain();
+        tempDomain.setAge("18");
+        tempDomain.setName("wang");
+        tempDomain.setId(123l);
+        tempDomain.setCreateTime(DateUtil.getTimestamp());
+        tempDomain.setIsDelete(2);
+        tempDomain.setUpdateTime(DateUtil.getTimestamp());
+        System.out.println(new SqlUtil().generateInsertSql(tempDomain, TableName.USER_TABLE_NAME));
+        System.out.println(new SqlUtil().generateUpdateSql(tempDomain, TableName.USER_TABLE_NAME));
+    }
 }

@@ -13,5 +13,7 @@ public interface Constant {
     String SUCCESS_MSG = "sucess";
     //500返回状态码
     String ERROR_500_CODE = "500";
+    //token过期时间
+    Long TOKEN_VALIDATE_TIME = 24*60*60L;
 
 }

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pm.mapper.UserMapper">
+  <resultMap id="BaseResultMap" type="com.pm.domain.User">
+    <result column="id" jdbcType="BIGINT" property="id"/>
+    <result column="account" jdbcType="VARCHAR" property="account"/>
+    <result column="password" jdbcType="VARCHAR" property="password"/>
+    <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+    <result column="email" jdbcType="VARCHAR" property="email"/>
+    <result column="mobilephone" jdbcType="VARCHAR" property="mobilephone"/>
+    <result column="md5_param" jdbcType="VARCHAR" property="md5Param"/>
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    <result column="is_delete" jdbcType="INTEGER" property="isDelete"/>
+  </resultMap>
+  <insert id="insert" parameterType="com.pm.domain.User" keyProperty="id" keyColumn="id" useGeneratedKeys="true">
+        insert into user (account, password,
+          user_name, email, mobilephone,
+          md5_param, create_time, update_time,
+          is_delete)
+        values (#{account,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
+          #{userName,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{mobilephone,jdbcType=VARCHAR},
+          #{md5Param,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP},
+          #{isDelete,jdbcType=INTEGER})
+    </insert>
+
+  <update id="update" parameterType="com.pm.domain.User">
+        update user
+        set
+            account=#{account,jdbcType=VARCHAR},
+            password=#{password,jdbcType=VARCHAR},
+            user_name=#{userName,jdbcType=VARCHAR},
+            email=#{email,jdbcType=VARCHAR},
+            mobilephone=#{mobilephone,jdbcType=VARCHAR},
+            md5_param=#{md5Param,jdbcType=VARCHAR},
+            create_time=#{createTime,jdbcType=TIMESTAMP},
+            update_time=#{updateTime,jdbcType=TIMESTAMP},
+            is_delete=#{isDelete,jdbcType=INTEGER}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+  <select id="getById" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select * from user where id=#{id,jdbcType=BIGINT}
+    </select>
+
+  <select id="getAll" resultMap="BaseResultMap">
+        select * from user
+    </select>
+
+  <select id="getByAccount" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from user where account=#{account,jdbcType=VARCHAR}
+    </select>
+
+  <select id="getByAccountAndPassword" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select * from user where account=#{account,jdbcType=VARCHAR} and password=#{password,jdbcType=VARCHAR}
+    </select>
+
+  <delete id="delete" parameterType="java.lang.Long">
+        delete from user where id = #{id,jdbcType=BIGINT}
+    </delete>
+</mapper>
