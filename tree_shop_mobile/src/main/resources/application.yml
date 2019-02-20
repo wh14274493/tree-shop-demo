@@ -1,0 +1,16 @@
+server:
+  port: 8765
+  servlet:
+    context-path: /mobile
+spring:
+  application:
+    name: mobile
+  freemarker:
+    suffix: .ftl
+    templateEncoding: UTF-8
+    templateLoaderPath: classpath:/templates/
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://120.79.27.240:8762/eureka/
